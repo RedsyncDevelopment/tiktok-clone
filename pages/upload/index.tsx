@@ -2,6 +2,7 @@ import axios from "axios";
 import { useRouter } from "next/router";
 import React, { ReactNode, useState } from "react";
 import { FaCloudUploadAlt } from "react-icons/fa";
+import { BASE_URL } from "../../utils";
 import { topics } from "../../utils/constants";
 
 interface UploadProps {
@@ -46,7 +47,7 @@ const Upload: React.FC<UploadProps> = ({ children }) => {
         "https://api.cloudinary.com/v1_1/redsync/video/upload",
         formData
       );
-      await axios.post("http://localhost:3000/api/post", {
+      await axios.post(`${BASE_URL}/api/post`, {
         data: {
           post: {
             caption: caption,
