@@ -1,5 +1,5 @@
 import { NextApiRequest, NextApiResponse } from "next";
-import { prisma } from "../../../utils/prisma";
+import { allUsersQuery } from "../../../utils/queries";
 
 export default async function handler(
   req: NextApiRequest,
@@ -9,19 +9,12 @@ export default async function handler(
 
   // HTTP GET METHOD - get all posts
   if (req.method === "GET") {
-    const users = await prisma.user.findMany({
-      include: {
-        comment: true,
-        likes: true,
-        post: true,
-      },
-    });
+    const users = await allUsersQuery();
 
-    if (users) {
-      res.status(200).json(users);
-    } else {
+    if (!users) {
       return res.status(500).json({ error: "Something went wrong" });
     }
+    res.status(200).json(users);
     res.end();
   }
 }

@@ -1,5 +1,6 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import { prisma } from "../../../utils/prisma";
+import { findAllPostsOfSingleUser, findUserById } from "../../../utils/queries";
 
 export default async function handler(
   req: NextApiRequest,
@@ -10,25 +11,8 @@ export default async function handler(
     if (!id) {
       res.status(400).json({ error: "Something went wrong" });
     }
-    const user = await prisma.user.findFirst({
-      where: {
-        id: id,
-      },
-      include: {
-        post: true,
-        comment: true,
-        likes: true,
-      },
-    });
-
-    const post = await prisma.post.findMany({
-      where: {
-        userId: user?.id,
-      },
-      include: {
-        user: true,
-      },
-    });
+    const user = await findUserById(id);
+    const post = await findAllPostsOfSingleUser(user);
 
     const likedPosts = await prisma.post.findMany({
       where: {

@@ -1,5 +1,5 @@
 import { NextApiRequest, NextApiResponse } from "next";
-import { prisma } from "../../../utils/prisma";
+import { searchVideoQuery } from "../../../utils/queries";
 
 export default async function handler(
   req: NextApiRequest,
@@ -7,19 +7,12 @@ export default async function handler(
 ) {
   if (req.method === "GET") {
     const { searchTerm } = req.query;
+    const videos = await searchVideoQuery(searchTerm);
 
-    const videos = await prisma.post.findMany({
-      where: {
-        caption: {
-          contains: searchTerm,
-          mode: "insensitive",
-        },
-      },
-      include: {
-        user: true,
-      },
-    });
-
+    if (!videos) {
+      res.status(400).json({ error: "No videos found" });
+    }
     res.status(200).json(videos);
+    res.end();
   }
 }
