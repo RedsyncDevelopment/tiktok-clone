@@ -1,5 +1,5 @@
 import axios from "axios";
-import { NextPage, NextPageContext } from "next";
+import { NextPage } from "next";
 import NoResults from "../components/pages/home/NoResults";
 import VideoCard from "../components/pages/home/VideoCard";
 import { BASE_URL } from "../utils";
@@ -24,12 +24,20 @@ const Home: NextPage<HomeProps> = ({ videos }) => {
 
 export default Home;
 
-export const getServerSideProps = async (context: NextPageContext) => {
-  const { req, res } = context;
-  const { data } = await axios.get(`${BASE_URL}/api/post`);
+export const getServerSideProps = async ({
+  query: { topic },
+}: {
+  query: { topic: string };
+}) => {
+  let response = null;
+  if (topic) {
+    response = await axios.get(`${BASE_URL}/api/discover/${topic}`);
+  } else {
+    response = await axios.get(`${BASE_URL}/api/post`);
+  }
   return {
     props: {
-      videos: data,
+      videos: response.data,
     },
   };
 };

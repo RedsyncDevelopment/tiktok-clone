@@ -30,22 +30,20 @@ export default async function handler(
       },
     });
 
-    const likes = await prisma.likes.findFirst({
-      where: {
-        userId: user?.id,
-      },
-    });
-
     const likedPosts = await prisma.post.findMany({
       where: {
-        userId: likes?.userId,
+        likes: {
+          some: {
+            userId: user?.id,
+          },
+        },
       },
       include: {
         user: true,
       },
     });
 
-    if (!user) {
+    if (!likedPosts) {
       res.status(400).json({ error: "No post with that id" });
     }
     res.status(200).json({ user, post, likedPosts });

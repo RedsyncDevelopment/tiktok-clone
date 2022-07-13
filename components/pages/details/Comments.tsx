@@ -37,7 +37,7 @@ const Comments: React.FC<CommentsProps> = ({
         <div className="overflow-scroll lg:h-[475px]">
           {comments?.length ? (
             comments.map((comment: any, idx: any) => (
-              <>
+              <div key={idx}>
                 {allUsers.map(
                   (user: any) =>
                     user.id === comment.userId && (
@@ -71,7 +71,7 @@ const Comments: React.FC<CommentsProps> = ({
                       </div>
                     )
                 )}
-              </>
+              </div>
             ))
           ) : (
             <NoResults text="No comments yet!" />
