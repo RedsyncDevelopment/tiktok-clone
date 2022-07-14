@@ -1,5 +1,7 @@
+import { positions } from "@mui/system";
 import { NextApiRequest, NextApiResponse } from "next";
-import { prisma } from "../../../utils/prisma";
+import { findVideoByTopic } from "../../../utils/queries";
+import { checkIfExists } from "../../../utils/validation";
 
 export default async function handler(
   req: NextApiRequest,
@@ -7,23 +9,10 @@ export default async function handler(
 ) {
   if (req.method === "GET") {
     const { topic } = req.query;
-    if (!topic) {
-      res.status(400).json({ error: "Something went wrong" });
-    }
-    const post = await prisma.post.findMany({
-      where: {
-        topic: topic,
-      },
-      include: {
-        user: true,
-        comment: true,
-        likes: true,
-      },
-    });
-    if (!post) {
-      res.status(400).json({ error: "No post with that id" });
-    }
-    res.status(200).json(post);
+    checkIfExists(res, topic, 400, "Something went wrong!");
+    const posts = await findVideoByTopic(topic);
+    checkIfExists(res, positions, 400, "Posts not found");
+    res.status(200).json(posts);
     res.end();
   }
 }

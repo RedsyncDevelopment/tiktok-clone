@@ -1,5 +1,6 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import { allUsersQuery } from "../../../utils/queries";
+import { checkIfExists } from "../../../utils/validation";
 
 export default async function handler(
   req: NextApiRequest,
@@ -10,10 +11,7 @@ export default async function handler(
   // HTTP GET METHOD - get all posts
   if (req.method === "GET") {
     const users = await allUsersQuery();
-
-    if (!users) {
-      return res.status(500).json({ error: "Something went wrong" });
-    }
+    checkIfExists(res, users, 400, "Users not found");
     res.status(200).json(users);
     res.end();
   }

@@ -48,12 +48,10 @@ const Upload: React.FC<UploadProps> = ({ children }) => {
         formData
       );
       await axios.post(`${BASE_URL}/api/post`, {
-        data: {
-          post: {
-            caption: caption,
-            video: data?.data.url,
-            topic: category,
-          },
+        post: {
+          caption: caption,
+          video: data?.data.url,
+          topic: category,
         },
       });
       router.push("/");

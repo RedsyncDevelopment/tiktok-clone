@@ -1,5 +1,10 @@
 import { NextApiRequest, NextApiResponse } from "next";
-import { prisma } from "../../../utils/prisma";
+import {
+  createNewComment,
+  findUserById,
+  findVideoById,
+} from "../../../utils/queries";
+import { checkIfExists } from "../../../utils/validation";
 
 export default async function handler(
   req: NextApiRequest,
@@ -7,65 +12,22 @@ export default async function handler(
 ) {
   if (req.method === "GET") {
     const { id } = req.query;
-    if (!id) {
-      res.status(400).json({ error: "Something went wrong" });
-    }
-    const post = await prisma.post.findFirst({
-      where: {
-        id: id,
-      },
-      include: {
-        user: true,
-        comment: true,
-        likes: true,
-      },
-    });
-    if (!post) {
-      res.status(400).json({ error: "No post with that id" });
-    }
+    checkIfExists(res, id, 400, "Something went wrong");
+    const post = await findVideoById(id);
+    checkIfExists(res, post, 400, "Post not found");
     res.status(200).json(post);
     res.end();
   }
   if (req.method === "PUT") {
     const { id } = req.query;
     const { userId, comment } = req.body;
-    if (!id) {
-      res.status(400).json({ error: "Something went wrong" });
-    }
-    const post = await prisma.post.findFirst({
-      where: {
-        id: id,
-      },
-    });
-
-    if (!post) {
-      res.status(400).json({ error: "Post not found" });
-    }
-
-    const user = await prisma.user.findFirst({
-      where: { id: userId },
-    });
-
-    if (!user) {
-      res.status(400).json({ error: "User not found" });
-    }
-
-    const createComment = await prisma.comment.create({
-      data: {
-        body: comment,
-        userId: user?.id,
-        postId: post?.id,
-      },
-    });
-
-    const findPost = await prisma.post.findFirst({
-      where: {
-        id: post?.id,
-      },
-      include: {
-        comment: true,
-      },
-    });
+    checkIfExists(res, id, 400, "Something went wrong");
+    const post = await findVideoById(id);
+    checkIfExists(res, post, 400, "Post not found");
+    const user = await findUserById(userId);
+    checkIfExists(res, user, 400, "User not found");
+    const createComment = await createNewComment(comment, post, user);
+    const findPost = await findVideoById(post?.id);
 
     if (createComment.id) {
       res.status(200).json(findPost);

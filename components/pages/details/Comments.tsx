@@ -43,8 +43,8 @@ const Comments: React.FC<CommentsProps> = ({
                     user.id === comment.userId && (
                       <div className="p-2 items-center" key={idx}>
                         <Link href={`/profile/${user.id}`}>
-                          <div className="flex items-start gap-3">
-                            <div className="w-8 h-8">
+                          <div className="flex items-start gap-3 ">
+                            <div className="w-8 h-8 cursor-pointer">
                               <Image
                                 src={user.image}
                                 width={34}
@@ -54,7 +54,7 @@ const Comments: React.FC<CommentsProps> = ({
                                 layout="responsive"
                               />
                             </div>
-                            <div className="hidden xl:block">
+                            <div className="hidden xl:block cursor-pointer">
                               <p className="flex gap-1 items-center text-md font-bold text-primary lowercase">
                                 {user.name.replaceAll(" ", "")}
                                 <GoVerified className="text-blue-400" />

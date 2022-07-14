@@ -1,6 +1,10 @@
 import { NextApiRequest, NextApiResponse } from "next";
-import { prisma } from "../../../utils/prisma";
-import { findAllPostsOfSingleUser, findUserById } from "../../../utils/queries";
+import {
+  findAllLikedVideosFromUser,
+  findAllPostsOfSingleUser,
+  findUserById,
+} from "../../../utils/queries";
+import { checkIfExists } from "../../../utils/validation";
 
 export default async function handler(
   req: NextApiRequest,
@@ -8,28 +12,11 @@ export default async function handler(
 ) {
   if (req.method === "GET") {
     const { id } = req.query;
-    if (!id) {
-      res.status(400).json({ error: "Something went wrong" });
-    }
+    checkIfExists(res, id, 400, "Something went wrong!");
     const user = await findUserById(id);
     const post = await findAllPostsOfSingleUser(user);
-
-    const likedPosts = await prisma.post.findMany({
-      where: {
-        likes: {
-          some: {
-            userId: user?.id,
-          },
-        },
-      },
-      include: {
-        user: true,
-      },
-    });
-
-    if (!likedPosts) {
-      res.status(400).json({ error: "No post with that id" });
-    }
+    const likedPosts = await findAllLikedVideosFromUser(user);
+    checkIfExists(res, likedPosts, 400, "Post not found!");
     res.status(200).json({ user, post, likedPosts });
     res.end();
   }
