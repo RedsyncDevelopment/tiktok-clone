@@ -7,7 +7,8 @@ export default async function handler(
   res: NextApiResponse
 ) {
   if (req.method === "GET") {
-    const { searchTerm } = req.query;
+    let { searchTerm } = req.query;
+    searchTerm = searchTerm.toString();
     const videos = await searchVideoQuery(searchTerm);
     checkIfExists(res, videos, 400, "Videos not found");
     res.status(200).json(videos);

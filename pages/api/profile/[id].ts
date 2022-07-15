@@ -11,7 +11,8 @@ export default async function handler(
   res: NextApiResponse
 ) {
   if (req.method === "GET") {
-    const { id } = req.query;
+    let { id } = req.query;
+    id = id.toString();
     checkIfExists(res, id, 400, "Something went wrong!");
     const user = await findUserById(id);
     const post = await findAllPostsOfSingleUser(user);

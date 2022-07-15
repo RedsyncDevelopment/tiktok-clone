@@ -11,7 +11,7 @@ interface UserInfoProps {
 const UserInfo: React.FC<UserInfoProps> = ({ children, post }) => {
   return (
     <div className="flex gap-3 p-2 cursor-pointer font-semibold rounded">
-      <div className="ml-4 md:w-20 md:h-20 w-16 h-16">
+      <div className="md:w-16 md:h-16 lg:w-20 lg:h-20 w-12 h-12">
         <Link href={`/profile/${post.userId}`}>
           <>
             <Image

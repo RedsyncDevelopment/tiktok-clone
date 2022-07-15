@@ -1,6 +1,7 @@
 import axios from "axios";
+import { NextPage } from "next";
 import { useRouter } from "next/router";
-import React, { ReactNode, useState } from "react";
+import { ReactNode, useState } from "react";
 import { FaCloudUploadAlt } from "react-icons/fa";
 import { BASE_URL } from "../../utils";
 import { topics } from "../../utils/constants";
@@ -9,7 +10,7 @@ interface UploadProps {
   children?: ReactNode;
 }
 
-const Upload: React.FC<UploadProps> = ({ children }) => {
+const Upload: NextPage<UploadProps> = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [videoAsset, setVideoAsset] = useState<Blob | string>("");
   const [wrongFileType, setWrongFileType] = useState(false);

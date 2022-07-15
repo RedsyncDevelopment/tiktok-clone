@@ -8,7 +8,8 @@ export default async function handler(
   res: NextApiResponse
 ) {
   if (req.method === "GET") {
-    const { topic } = req.query;
+    let { topic } = req.query;
+    topic = topic.toString();
     checkIfExists(res, topic, 400, "Something went wrong!");
     const posts = await findVideoByTopic(topic);
     checkIfExists(res, positions, 400, "Posts not found");

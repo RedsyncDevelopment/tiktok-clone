@@ -1,4 +1,5 @@
 import axios from "axios";
+import { NextPage } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
@@ -14,7 +15,7 @@ interface SearchProps {
   videos: any;
 }
 
-const Search: React.FC<SearchProps> = ({ children, videos }) => {
+const Search: NextPage<SearchProps> = ({ videos }) => {
   const [isAccounts, setIsAccounts] = useState(false);
   const { allUsers } = useStore();
   const router = useRouter();

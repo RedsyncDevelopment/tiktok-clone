@@ -1,6 +1,7 @@
 import axios from "axios";
+import { NextPage } from "next";
 import Image from "next/image";
-import React, { ReactNode, useEffect, useState } from "react";
+import { ReactNode, useEffect, useState } from "react";
 import { GoVerified } from "react-icons/go";
 import NoResults from "../../components/pages/home/NoResults";
 import VideoCard from "../../components/pages/home/VideoCard";
@@ -11,7 +12,7 @@ interface ProfileProps {
   data: any;
 }
 
-const Profile: React.FC<ProfileProps> = ({ children, data }) => {
+const Profile: NextPage<ProfileProps> = ({ data }) => {
   const [showUserVideos, setShowUserVideos] = useState(true);
   const [videosList, setVideosList] = useState([]);
   const { user, post, likedPosts } = data;

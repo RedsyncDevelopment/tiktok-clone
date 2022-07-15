@@ -1,9 +1,10 @@
-import React, { ReactNode, useEffect, useRef, useState } from "react";
+import { ReactNode, useEffect, useRef, useState } from "react";
 
 import { BsFillPlayFill } from "react-icons/bs";
 import { MdOutlineCancel } from "react-icons/md";
 
 import axios from "axios";
+import { NextPage } from "next";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
 import { HiVolumeOff, HiVolumeUp } from "react-icons/hi";
@@ -17,7 +18,7 @@ interface DetailProps {
   postDetails: any;
 }
 
-const Detail: React.FC<DetailProps> = ({ children, postDetails }) => {
+const Detail: NextPage<DetailProps> = ({ postDetails }) => {
   const { data: session } = useSession();
 
   const [post, setPost] = useState(postDetails);

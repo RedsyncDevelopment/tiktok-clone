@@ -11,7 +11,8 @@ export default async function handler(
   res: NextApiResponse
 ) {
   if (req.method === "GET") {
-    const { id } = req.query;
+    let { id } = req.query;
+    id = id.toString();
     checkIfExists(res, id, 400, "Something went wrong");
     const post = await findVideoById(id);
     checkIfExists(res, post, 400, "Post not found");
@@ -19,7 +20,8 @@ export default async function handler(
     res.end();
   }
   if (req.method === "PUT") {
-    const { id } = req.query;
+    let { id } = req.query;
+    id = id.toString();
     const { userId, comment } = req.body;
     checkIfExists(res, id, 400, "Something went wrong");
     const post = await findVideoById(id);

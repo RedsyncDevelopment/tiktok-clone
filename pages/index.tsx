@@ -1,10 +1,12 @@
 import axios from "axios";
 import { NextPage } from "next";
+import { ReactNode } from "react";
 import NoResults from "../components/pages/home/NoResults";
 import VideoCard from "../components/pages/home/VideoCard";
 import { BASE_URL } from "../utils";
 
 interface HomeProps {
+  children: ReactNode;
   videos: any;
 }
 
