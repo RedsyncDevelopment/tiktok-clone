@@ -10,6 +10,7 @@ COPY .env ./
 RUN npm install
 RUN npx prisma generate
 
+
 COPY .gitignore ./
 COPY example.env ./
 COPY next.config.js ./

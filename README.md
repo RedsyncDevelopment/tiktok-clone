@@ -1,34 +1,35 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# TikTok Clone Application
 
-## Getting Started
+This app is not published but it's Dockerized so you can clone this repo and follow the description below to try it local.
 
-First, run the development server:
+TikTok Clone with lots of functionality. You can upload your video, like and comment on other people videos and more...
+
+## How to use?
+
+### Prerequisite
+
+U need to set up: [Google Console Project](https://console.cloud.google.com/) and create OAuth credentials and copy them to `.env` file as shown in `example.env`
+
+Secondly you need to have: [Cloudinary](https://cloudinary.com/) as video upload file system. This could be done on local server, but this way there is no need to deal with file managment locally.
+
+### 1 (more simple way - Docker):
+
+There are to ways you can run this app on your local machine. First one, and the most simple is to run it with [Docker](https://www.docker.com/). You need to download and install the Docker Desktop first. After that, navigate to project folder, set up `.env` variables and run
 
 ```bash
-npm run dev
-# or
-yarn dev
+docker-compose up --build --force-recreate
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+After it done building images and containers be sure to run in app container bash the following command to migrate model to database:
 
-You can start editing the page by modifying `pages/index.tsx`. The page auto-updates as you edit the file.
+```bash
+npx prisma migrate dev --name initial
+```
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.ts`.
+Thats it! U are all set! Visit [localhost:3000](localhost:3000) and view your page.
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
+### 2 (more complicated - install all software local)
 
-## Learn More
+First you need to setup [PostgreSQL](https://www.postgresql.org/) and [pgAdmin](https://www.pgadmin.org/). I won't go into details how to set them up, but it's not that complicated. All the documentation can be found on official websites.
 
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+There is also an info on how to set `.env` variables if you run this project this way.
