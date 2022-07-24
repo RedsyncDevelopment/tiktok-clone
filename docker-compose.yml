@@ -8,6 +8,9 @@ services:
       - 3000:3000
     volumes:
       - ./pages:/app/pages
+      - ./public:/app/public
+      - ./styles:/app/styles
+      - ./components:/app/components
 
   postgres:
     image: postgres:latest
