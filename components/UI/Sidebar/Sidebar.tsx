@@ -3,8 +3,8 @@ import Link from "next/link";
 import React, { useState } from "react";
 import { AiFillHome, AiOutlineMenu } from "react-icons/ai";
 import { ImCancelCircle } from "react-icons/im";
-import Discover from "./Discover";
-import Footer from "./Footer";
+import Discover from "../Discover";
+import Footer from "../Footer";
 import SuggestedAccounts from "./SuggestedAccounts";
 
 interface SidebarProps {

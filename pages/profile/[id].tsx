@@ -43,7 +43,7 @@ const Profile: NextPage<ProfileProps> = ({ data }) => {
             ></Image>
           </div>
           <div className="flex flex-col justify-center">
-            <p className="md:text-2xl tracking-wider items-center justify-center flex gap-1 text-md font-bold text-primary lowercase">
+            <p className="md:text-2xl tracking-wider items-center justify-center flex gap-1 text-md font-bold text-primary-dark-200ry lowercase">
               {user.name.replaceAll(" ", "")}
               <GoVerified className="text-blue-400" />
             </p>

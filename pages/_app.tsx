@@ -1,12 +1,16 @@
 import { SessionProvider } from "next-auth/react";
 import type { AppProps } from "next/app";
-import { useEffect, useState } from "react";
-import Navbar from "../components/UI/Navbar";
-import Sidebar from "../components/UI/Sidebar";
-import { ThemeProvider } from "../states/context/theme/ThemeContext";
+import { useContext, useEffect, useState } from "react";
+import Navbar from "../components/UI/Navbar/Navbar";
+import Sidebar from "../components/UI/Sidebar/Sidebar";
+import {
+  ThemeContext,
+  ThemeProvider,
+} from "../states/context/theme/ThemeContext";
 import "../styles/globals.css";
 
 function MyApp({ Component, pageProps: { session, ...pageProps } }: AppProps) {
+  const { dark } = useContext(ThemeContext);
   const [isSSR, setIsSSR] = useState(true);
 
   useEffect(() => {
@@ -18,7 +22,7 @@ function MyApp({ Component, pageProps: { session, ...pageProps } }: AppProps) {
   return (
     <SessionProvider session={session}>
       <ThemeProvider>
-        <div className="xl:w-[1200px] m-auto overflow-hidden h-[100vh]">
+        <div className={`xl:w-[1200px] m-auto overflow-hidden h-[100vh] `}>
           <Navbar />
           <div className="flex gap-6 md:gap-20">
             <div className="h-[92vh] overflow-hidden xl:hover:overflow-auto">

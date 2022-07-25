@@ -2,7 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import React, { ReactNode, useEffect } from "react";
 import { GoVerified } from "react-icons/go";
-import useStore from "../../states/store/useStore";
+import useStore from "../../../states/store/useStore";
 
 interface SuggestedAccountsProps {
   children?: ReactNode;
@@ -36,7 +36,7 @@ const SuggestedAccounts: React.FC<SuggestedAccountsProps> = ({ children }) => {
                   />
                 </div>
                 <div className="hidden xl:block">
-                  <p className="flex gap-1 items-center text-md font-bold text-primary lowercase">
+                  <p className="flex gap-1 items-center text-md font-bold text-primary-dark-200ry lowercase">
                     {user.name.replaceAll(" ", "")}
                     <GoVerified className="text-blue-400" />
                   </p>

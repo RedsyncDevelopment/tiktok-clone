@@ -55,7 +55,7 @@ const Comments: React.FC<CommentsProps> = ({
                               />
                             </div>
                             <div className="hidden xl:block cursor-pointer">
-                              <p className="flex gap-1 items-center text-md font-bold text-primary lowercase">
+                              <p className="flex gap-1 items-center text-md font-bold text-primary-dark-200ry lowercase">
                                 {user.name.replaceAll(" ", "")}
                                 <GoVerified className="text-blue-400" />
                               </p>

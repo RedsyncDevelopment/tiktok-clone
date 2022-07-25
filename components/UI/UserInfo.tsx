@@ -28,7 +28,7 @@ const UserInfo: React.FC<UserInfoProps> = ({ children, post }) => {
       <div className="flex flex-col">
         <Link href={`/profile/${post.userId}`}>
           <div className="mt-1 flex flex-col gap-2">
-            <p className="flex gap-2 items-center md:text-md font-bold text-primary">
+            <p className="flex gap-2 items-center md:text-md font-bold text-primary-dark-200ry">
               {post.user.name} <GoVerified className="text-blue-400 text-md" />
             </p>
             <p className="capitalize font-medium text-xs text-gray-500 hidden md:block">

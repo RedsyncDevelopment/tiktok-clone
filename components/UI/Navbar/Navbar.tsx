@@ -2,30 +2,38 @@ import { signIn, signOut, useSession } from "next-auth/react";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import React, { ReactNode, useState } from "react";
+import React, { ReactNode, useContext, useState } from "react";
 import { AiOutlineLogout } from "react-icons/ai";
-import { BiSearch } from "react-icons/bi";
+import { BsMoonFill, BsSunFill } from "react-icons/bs";
 import { FcGoogle } from "react-icons/fc";
 import { IoMdAdd } from "react-icons/io";
-import Logo from "../../utils/tiktik-logo.png";
+import { ThemeContext } from "../../../states/context/theme/ThemeContext";
+import Logo from "../../../utils/tiktik-logo.png";
+import SearchBar from "./SearchBar";
 
 interface NavbarProps {
   children?: ReactNode;
 }
 const Navbar: React.FC<NavbarProps> = ({ children }) => {
+  const { dark, toggleTheme } = useContext(ThemeContext);
   const { data: session } = useSession();
   const [searchValue, setSearchValue] = useState("");
   const router = useRouter();
 
-  const handleSearch = (e: React.FormEvent) => {
+  const handleSearch = async (e: React.FormEvent) => {
     e.preventDefault();
     if (searchValue) {
-      router.push(`/search/${searchValue}`);
+      await router.push(`/search/${searchValue}`);
+      setSearchValue("");
     }
   };
 
   return (
-    <div className="w-full flex justify-between items-center border-b-2 border-gray-200 py-2 px-4 h-16">
+    <div
+      className={`w-full flex justify-between items-center border-b-2 border-gray-200 py-2 px-4 h-16 ${
+        dark ? "bg-primary-dark-400" : "bg-primary-light-400"
+      }`}
+    >
       <Link href="/">
         <div className="w-[100px] md:w-[130px]">
           <Image
@@ -36,33 +44,42 @@ const Navbar: React.FC<NavbarProps> = ({ children }) => {
           ></Image>
         </div>
       </Link>
-      <div className="relative hidden md:block">
-        <form
-          onSubmit={handleSearch}
-          className="absolute md:static top-10 -left-20 bg-white"
-        >
-          <input
-            type="text"
-            value={searchValue}
-            onChange={(e) => setSearchValue(e.target.value)}
-            placeholder="Search accounts and videos"
-            className="bg-primary p-3 md:text-md font-medium border-2 border-gray-100 focus:outline-none focus:border-2 focus:border-gray-300 w-[300px] md:w-[350px] rounded-full md:top-0"
-          />
-          <button
-            onClick={handleSearch}
-            className="absolute md:right-5 right-6 top-4 border-l-2 border-gray-300 pl-4 text-2xl text-gray-400"
-          >
-            <BiSearch />
+      <SearchBar
+        handleSearch={handleSearch}
+        searchValue={searchValue}
+        setSearchValue={setSearchValue}
+      />
+
+      <div className="flex gap-5 justify-center items-center">
+        <div>
+          <button onClick={toggleTheme}>
+            {dark ? (
+              <div>
+                <BsSunFill className={`text-primary-light-400`} />
+              </div>
+            ) : (
+              <div>
+                <BsMoonFill className={`text-primary-dark-400`} />
+              </div>
+            )}
           </button>
-        </form>
-      </div>
-      <div>
+        </div>
         {session ? (
           <div className="flex gap-5 md:gap-10">
             <Link href="/upload">
               <button className="border-2 px-2 md:px-4 text-md font-semibold flex items-center gap-2">
-                <IoMdAdd className="text-xl" />
-                <span className="hidden md:block">Upload</span>
+                <IoMdAdd
+                  className={`text-xl ${
+                    dark ? "text-primary-light-200" : "text-primary-dark-200"
+                  }`}
+                />
+                <span
+                  className={`hidden md:block ${
+                    dark ? "text-primary-light-400" : "text-primary-dark-400"
+                  }`}
+                >
+                  Upload
+                </span>
               </button>
             </Link>
             {session.user?.image && (
@@ -93,7 +110,9 @@ const Navbar: React.FC<NavbarProps> = ({ children }) => {
               signIn("google", { redirect: false, callbackUrl: "/" })
             }
           >
-            <FcGoogle className="text-xl" /> <p>Sign In With Google</p>
+            <FcGoogle className="text-xl" />{" "}
+            <p className="hidden sm:block">Sign In With Google</p>
+            <p className="block sm:hidden">Sign In</p>
           </div>
         )}
       </div>

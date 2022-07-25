@@ -3,7 +3,7 @@ import { NextPage } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import React, { ReactNode, useState } from "react";
+import { ReactNode, useState } from "react";
 import { GoVerified } from "react-icons/go";
 import NoResults from "../../components/pages/home/NoResults";
 import VideoCard from "../../components/pages/home/VideoCard";
@@ -61,7 +61,7 @@ const Search: NextPage<SearchProps> = ({ videos }) => {
                       />
                     </div>
                     <div className="hidden xl:block">
-                      <p className="flex gap-1 items-center text-md font-bold text-primary lowercase">
+                      <p className="flex gap-1 items-center text-md font-bold text-primary-dark-200ry lowercase">
                         {user.name.replaceAll(" ", "")}
                         <GoVerified className="text-blue-400" />
                       </p>
