@@ -30,7 +30,7 @@ const Navbar: React.FC<NavbarProps> = ({ children }) => {
 
   return (
     <div
-      className={`w-full flex justify-between items-center py-2 px-4 h-16 ${
+      className={`w-full flex justify-between items-center mt-4 mb-6 px-4 h-16 ${
         dark ? "bg-primary-dark-400" : "bg-primary-light-400"
       }`}
     >
