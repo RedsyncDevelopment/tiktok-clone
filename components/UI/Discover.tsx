@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { useRouter } from "next/router";
-import React, { ReactNode } from "react";
+import React, { ReactNode, useContext } from "react";
+import { ThemeContext } from "../../states/context/theme/ThemeContext";
 import { topics } from "../../utils/constants";
 
 interface DiscoverProps {
@@ -9,12 +10,25 @@ interface DiscoverProps {
 
 const Discover: React.FC<DiscoverProps> = ({ children }) => {
   const router = useRouter();
+  const { dark } = useContext(ThemeContext);
   const { topic } = router.query;
-  const activeTopicStyle =
-    "xl:border-2 hover:bg-primary xl:border-[#f51997] px-3 py-2 rounded xl:rounded-full flex items-center gap-2 justify-center cursor-pointer text-[#ff1997]";
+  const activeTopicStyle = `xl:border-2  xl:border-[#f51997] px-3 py-2 rounded xl:rounded-full flex items-center gap-2 justify-center cursor-pointer text-[#ff1997] ${
+    dark ? "hover:bg-primary-dark-200" : "hover:bg-primary"
+  }`;
 
-  const topicStyle =
-    "xl:border-2 hover:bg-primary xl:border-gray-300 px-3 py-2 rounded xl:rounded-full flex items-center gap-2 justify-center cursor-pointer text-black";
+  const topicStyle = `xl:border-2  xl:border-gray-300 px-3 py-2 rounded xl:rounded-full flex items-center gap-2 justify-center cursor-pointer  ${
+    dark
+      ? "hover:bg-primary-dark-200 text-primary-light-400"
+      : "hover:bg-primary text-black"
+  }`;
+
+  const themedIcon = `font-bold text-2xl xl:text-md ${
+    dark ? "text-primary-light-400" : "text-primary-dark-400"
+  }`;
+
+  const themedItem = `font-medium text-md hidden xl:block ${
+    dark ? "text-primary-light-400" : "text-primary-dark-400"
+  }`;
 
   return (
     <>
@@ -28,12 +42,8 @@ const Discover: React.FC<DiscoverProps> = ({ children }) => {
               <div
                 className={topic === item.name ? activeTopicStyle : topicStyle}
               >
-                <span className="font-bold text-2xl xl:text-md">
-                  {item.icon}
-                </span>
-                <span className="font-medium text-md hidden xl:block">
-                  {item.name}
-                </span>
+                <span className={themedIcon}>{item.icon}</span>
+                <span className={themedItem}>{item.name}</span>
               </div>
             </Link>
           ))}

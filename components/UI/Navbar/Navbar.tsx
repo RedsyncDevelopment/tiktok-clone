@@ -30,7 +30,7 @@ const Navbar: React.FC<NavbarProps> = ({ children }) => {
 
   return (
     <div
-      className={`w-full flex justify-between items-center border-b-2 border-gray-200 py-2 px-4 h-16 ${
+      className={`w-full flex justify-between items-center py-2 px-4 h-16 ${
         dark ? "bg-primary-dark-400" : "bg-primary-light-400"
       }`}
     >
@@ -105,14 +105,22 @@ const Navbar: React.FC<NavbarProps> = ({ children }) => {
           </div>
         ) : (
           <div
-            className="flex items-center gap-2 cursor-pointer p-2 border-2 border-gray-200 rounded-xl"
+            className={`flex items-center gap-2 cursor-pointer p-2 border-2  rounded-xl ${
+              dark ? "border-primary-dark-200" : "border-primary-light-700"
+            }`}
             onClick={() =>
               signIn("google", { redirect: false, callbackUrl: "/" })
             }
           >
             <FcGoogle className="text-xl" />{" "}
-            <p className="hidden sm:block">Sign In With Google</p>
-            <p className="block sm:hidden">Sign In</p>
+            <p
+              className={`hidden sm:block ${
+                dark ? "text-primary-light-400" : "text-primary-dark-400"
+              }`}
+            >
+              Sign In With Google
+            </p>
+            <p className={`block sm:hidden ${dark ? "" : ""}`}>Sign In</p>
           </div>
         )}
       </div>

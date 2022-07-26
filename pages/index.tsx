@@ -1,8 +1,9 @@
 import axios from "axios";
 import { NextPage } from "next";
-import { ReactNode } from "react";
+import { ReactNode, useContext } from "react";
 import NoResults from "../components/pages/home/NoResults";
 import VideoCard from "../components/pages/home/VideoCard";
+import { ThemeContext } from "../states/context/theme/ThemeContext";
 import { BASE_URL } from "../utils";
 
 interface HomeProps {
@@ -11,9 +12,14 @@ interface HomeProps {
 }
 
 const Home: NextPage<HomeProps> = ({ videos }) => {
+  const { dark } = useContext(ThemeContext);
   return (
     <>
-      <div className="flex flex-col gap-10 videos h-full">
+      <div
+        className={`flex flex-col gap-10 videos h-full ${
+          dark ? "text-primary-light-400 " : "text-primary-dark-400 "
+        }`}
+      >
         {videos.length ? (
           videos.map((video: any) => <VideoCard post={video} key={video.id} />)
         ) : (

@@ -1,6 +1,7 @@
 import { SessionProvider } from "next-auth/react";
 import type { AppProps } from "next/app";
 import { useContext, useEffect, useState } from "react";
+import Layout from "../components/UI/Layout";
 import Navbar from "../components/UI/Navbar/Navbar";
 import Sidebar from "../components/UI/Sidebar/Sidebar";
 import {
@@ -22,9 +23,9 @@ function MyApp({ Component, pageProps: { session, ...pageProps } }: AppProps) {
   return (
     <SessionProvider session={session}>
       <ThemeProvider>
-        <div className={`xl:w-[1200px] m-auto overflow-hidden h-[100vh] `}>
+        <Layout>
           <Navbar />
-          <div className="flex gap-6 md:gap-20">
+          <div className={`flex gap-6 md:gap-20 `}>
             <div className="h-[92vh] overflow-hidden xl:hover:overflow-auto">
               <Sidebar />
             </div>
@@ -32,7 +33,7 @@ function MyApp({ Component, pageProps: { session, ...pageProps } }: AppProps) {
               <Component {...pageProps} />
             </div>
           </div>
-        </div>
+        </Layout>
       </ThemeProvider>
     </SessionProvider>
   );
