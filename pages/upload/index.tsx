@@ -1,8 +1,9 @@
 import axios from "axios";
 import { NextPage } from "next";
 import { useRouter } from "next/router";
-import { ReactNode, useState } from "react";
+import { ReactNode, useContext, useState } from "react";
 import { FaCloudUploadAlt } from "react-icons/fa";
+import { ThemeContext } from "../../states/context/theme/ThemeContext";
 import { BASE_URL } from "../../utils";
 import { topics } from "../../utils/constants";
 
@@ -11,6 +12,7 @@ interface UploadProps {
 }
 
 const Upload: NextPage<UploadProps> = () => {
+  const { dark } = useContext(ThemeContext);
   const [isLoading, setIsLoading] = useState(false);
   const [videoAsset, setVideoAsset] = useState<Blob | string>("");
   const [wrongFileType, setWrongFileType] = useState(false);
@@ -61,8 +63,16 @@ const Upload: NextPage<UploadProps> = () => {
 
   return (
     <>
-      <div className="flex w-full h-full absolute left-0 top-[60px] mb-10 pt-10 lg:pt-20 bg-[#f8f8f8] justify-center">
-        <div className="bg-white rounded-lg xl:h-[80vh] w-[60%] flex gap-6 flex-wrap justify-between items-center p-14 pt-6">
+      <div
+        className={`flex w-full h-[88vh] pb-10 justify-center overflow-auto ${
+          dark ? "bg-primary-dark-400" : "bg-primary-light-400"
+        }`}
+      >
+        <div
+          className={`${
+            dark ? "bg-primary-dark-200" : "bg-primary-light-200"
+          } rounded-xl p-10 h-[120vh] lg:h-full flex flex-col gap-6 pb-4 lg:flex-row lg:px-16 lg:py-12 lg:gap-8`}
+        >
           <div>
             <div>
               <p className="text-2xl font-bold">Upload Video</p>
@@ -122,7 +132,7 @@ const Upload: NextPage<UploadProps> = () => {
               )}
             </div>
           </div>
-          <div className="flex flex-col gap-3 pb-10">
+          <div className="flex flex-col gap-3 pb-10 lg:pt-24">
             <label className="text-md font-medium">Caption</label>
             <input
               type="text"

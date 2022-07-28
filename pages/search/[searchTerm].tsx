@@ -3,10 +3,11 @@ import { NextPage } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { ReactNode, useState } from "react";
+import { ReactNode, useContext, useState } from "react";
 import { GoVerified } from "react-icons/go";
 import NoResults from "../../components/pages/home/NoResults";
 import VideoCard from "../../components/pages/home/VideoCard";
+import { ThemeContext } from "../../states/context/theme/ThemeContext";
 import useStore from "../../states/store/useStore";
 import { BASE_URL } from "../../utils";
 
@@ -16,6 +17,8 @@ interface SearchProps {
 }
 
 const Search: NextPage<SearchProps> = ({ videos }) => {
+  const { dark } = useContext(ThemeContext);
+
   const [isAccounts, setIsAccounts] = useState(false);
   const { allUsers } = useStore();
   const router = useRouter();
@@ -31,15 +34,27 @@ const Search: NextPage<SearchProps> = ({ videos }) => {
   return (
     <>
       <div className="w-full">
-        <div className="flex gap-10 mb-10 mt-10 border-b-2 border-gray-200 bg-white w-full">
+        <div
+          className={`flex gap-10 mb-10 mt-10 justify-center w-full ${
+            dark ? "bg-primary-dark-400" : "bg-primary-light-400"
+          }`}
+        >
           <p
-            className={`text-xl font-semibold cursor-pointer mt-2 ${accounts}`}
+            className={`text-xl font-semibold cursor-pointer mt-2 ${accounts} ${
+              dark
+                ? "text-primary-light-400 border-white"
+                : "text-primary-dark-400"
+            }`}
             onClick={() => setIsAccounts(true)}
           >
             Accounts
           </p>
           <p
-            className={`text-xl font-semibold cursor-pointer mt-2 ${isVideos}`}
+            className={`text-xl font-semibold cursor-pointer mt-2 ${isVideos} ${
+              dark
+                ? "text-primary-light-400 border-white"
+                : "text-primary-dark-400"
+            }`}
             onClick={() => setIsAccounts(false)}
           >
             Videos
@@ -50,7 +65,11 @@ const Search: NextPage<SearchProps> = ({ videos }) => {
             {searchedAccounts.length > 0 ? (
               searchedAccounts.map((user: any, i: number) => (
                 <Link href={`/profile/${user.id}`} key={i}>
-                  <div className="flex gap-3 p-2 cursor-pointer font-semibold rounded border-b-2 border-gray-200">
+                  <div
+                    className={`flex gap-3 p-2 cursor-pointer font-semibold rounded border-b-2 border-gray-200 ${
+                      dark ? "text-primary-light-400" : "text-primary-dark-400"
+                    }`}
+                  >
                     <div>
                       <Image
                         src={user.image}
@@ -60,7 +79,7 @@ const Search: NextPage<SearchProps> = ({ videos }) => {
                         alt="user profile"
                       />
                     </div>
-                    <div className="hidden xl:block">
+                    <div className="">
                       <p className="flex gap-1 items-center text-md font-bold text-primary-dark-200ry lowercase">
                         {user.name.replaceAll(" ", "")}
                         <GoVerified className="text-blue-400" />
@@ -73,11 +92,13 @@ const Search: NextPage<SearchProps> = ({ videos }) => {
                 </Link>
               ))
             ) : (
-              <NoResults text={`No video results for "${searchTerm}"`} />
+              <NoResults text={`No account results for "${searchTerm}"`} />
             )}
           </div>
         ) : (
-          <div className="md:mt-16 flex flex-wrap gap-6 md:justify-start">
+          <div
+            className={`flex flex-col items-center overflow-auto h-[78vh] videos`}
+          >
             {videos.length ? (
               videos.map((video: any, i: number) => (
                 <VideoCard post={video} key={i} />

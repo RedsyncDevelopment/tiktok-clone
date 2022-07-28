@@ -10,7 +10,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
   return (
     <>
       <div
-        className={`xl:w-screen xl:px-64 m-auto overflow-hidden h-[100vh] ${
+        className={`xl:w-screen xl:px-64 overflow-hidden h-screen  ${
           dark ? "bg-primary-dark-400" : "bg-primary-light-400"
         }`}
       >

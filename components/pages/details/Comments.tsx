@@ -1,8 +1,9 @@
 import { useSession } from "next-auth/react";
 import Image from "next/image";
 import Link from "next/link";
-import React, { Dispatch, SetStateAction } from "react";
+import React, { Dispatch, SetStateAction, useContext } from "react";
 import { GoVerified } from "react-icons/go";
+import { ThemeContext } from "../../../states/context/theme/ThemeContext";
 import useStore from "../../../states/store/useStore";
 import NoResults from "../home/NoResults";
 
@@ -28,20 +29,27 @@ const Comments: React.FC<CommentsProps> = ({
   addComment,
   isPostingComment,
 }) => {
+  const { dark } = useContext(ThemeContext);
   const { data: session } = useSession();
   const { allUsers } = useStore();
 
   return (
     <>
-      <div className="border-t-2 border-gray-200 pt-4 px-10 bg-[#f8f8f8] border-b-2 lg:pb-0 pb-[100px]">
+      <div
+        className={`border-t-2 pt-4 px-10 border-b-2 lg:pb-0 pb-[100px] ${
+          dark
+            ? "bg-primary-dark-700 border-gray-700"
+            : "bg-primary-light-200 border-gray-200"
+        }`}
+      >
         <div className="overflow-scroll lg:h-[475px]">
           {comments?.length ? (
             comments.map((comment: any, idx: any) => (
-              <div key={idx}>
+              <div key={idx} className="pb-4">
                 {allUsers.map(
                   (user: any) =>
                     user.id === comment.userId && (
-                      <div className="p-2 items-center" key={idx}>
+                      <div className="flex flex-col gap-2 p-2" key={idx}>
                         <Link href={`/profile/${user.id}`}>
                           <div className="flex items-start gap-3 ">
                             <div className="w-8 h-8 cursor-pointer">
@@ -55,7 +63,13 @@ const Comments: React.FC<CommentsProps> = ({
                               />
                             </div>
                             <div className="hidden xl:block cursor-pointer">
-                              <p className="flex gap-1 items-center text-md font-bold text-primary-dark-200ry lowercase">
+                              <p
+                                className={`flex gap-1 items-center text-md font-bold lowercase ${
+                                  dark
+                                    ? "text-primary-light-400"
+                                    : "text-primary-dark-400"
+                                }`}
+                              >
                                 {user.name.replaceAll(" ", "")}
                                 <GoVerified className="text-blue-400" />
                               </p>
@@ -66,7 +80,15 @@ const Comments: React.FC<CommentsProps> = ({
                           </div>
                         </Link>
                         <div>
-                          <p>{comment.body}</p>
+                          <p
+                            className={`${
+                              dark
+                                ? "text-primary-light-400"
+                                : "text-primary-dark-400"
+                            }`}
+                          >
+                            {comment.body}
+                          </p>
                         </div>
                       </div>
                     )
@@ -78,8 +100,11 @@ const Comments: React.FC<CommentsProps> = ({
           )}
         </div>
         {session && (
-          <div className="absolute bottom-0 left-0 pb-6 px-2 md:px-10">
-            <form onSubmit={addComment} className="flex gap-4">
+          <div className="w-full absolute bottom-0 left-0 pb-6 px-2 md:px-10">
+            <form
+              onSubmit={addComment}
+              className="flex justify-center items-center flex-col lg:flex-row gap-4"
+            >
               <input
                 value={comment}
                 onChange={(e) => setComment(e.target.value)}

@@ -1,6 +1,7 @@
 import { useSession } from "next-auth/react";
-import React, { ReactNode, useEffect, useState } from "react";
+import React, { ReactNode, useContext, useEffect, useState } from "react";
 import { MdFavorite } from "react-icons/md";
+import { ThemeContext } from "../../../states/context/theme/ThemeContext";
 
 interface LikeButtonProps {
   children?: ReactNode;
@@ -15,6 +16,7 @@ const LikeButton: React.FC<LikeButtonProps> = ({
   handleLike,
   likes,
 }) => {
+  const { dark } = useContext(ThemeContext);
   const { data: session } = useSession();
   const [alreadyLiked, setAlreadyLiked] = useState(false);
   const filterLikes = likes?.filter(
@@ -36,14 +38,18 @@ const LikeButton: React.FC<LikeButtonProps> = ({
           {alreadyLiked ? (
             <div
               onClick={handleDislike}
-              className="bg-primary rounded-full p-2 md:p-4 text-[#f51997]"
+              className={`rounded-full p-2 md:p-4 text-[#f51997] ${
+                dark ? "bg-primary-dark-400" : "bg-primary-light-400"
+              }`}
             >
               <MdFavorite className="text-lg md:text-2xl" />
             </div>
           ) : (
             <div
               onClick={handleLike}
-              className="bg-primary rounded-full p-2 md:p-4"
+              className={`rounded-full p-2 md:p-4 ${
+                dark ? "bg-primary-dark-400" : "bg-primary-light-400"
+              }`}
             >
               <MdFavorite className="text-lg md:text-2xl" />
             </div>

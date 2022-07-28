@@ -3,7 +3,6 @@ import type { AppProps } from "next/app";
 import { useContext, useEffect, useState } from "react";
 import Layout from "../components/UI/Layout";
 import Navbar from "../components/UI/Navbar/Navbar";
-import Sidebar from "../components/UI/Sidebar/Sidebar";
 import {
   ThemeContext,
   ThemeProvider,
@@ -25,14 +24,7 @@ function MyApp({ Component, pageProps: { session, ...pageProps } }: AppProps) {
       <ThemeProvider>
         <Layout>
           <Navbar />
-          <div className={`flex gap-6 md:gap-20 `}>
-            <div className="h-[92vh] overflow-hidden xl:hover:overflow-auto">
-              <Sidebar />
-            </div>
-            <div className="flex flex-col gap-10 overflow-auto h-[88vh] videos flex-1">
-              <Component {...pageProps} />
-            </div>
-          </div>
+          <Component {...pageProps} />
         </Layout>
       </ThemeProvider>
     </SessionProvider>

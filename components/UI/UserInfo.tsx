@@ -1,7 +1,8 @@
 import Image from "next/image";
 import Link from "next/link";
-import React, { ReactNode } from "react";
+import React, { ReactNode, useContext } from "react";
 import { GoVerified } from "react-icons/go";
+import { ThemeContext } from "../../states/context/theme/ThemeContext";
 
 interface UserInfoProps {
   children?: ReactNode;
@@ -9,6 +10,8 @@ interface UserInfoProps {
 }
 
 const UserInfo: React.FC<UserInfoProps> = ({ children, post }) => {
+  const { dark } = useContext(ThemeContext);
+
   return (
     <div className="flex gap-3 p-2 cursor-pointer font-semibold rounded">
       <div className="md:w-16 md:h-16 lg:w-20 lg:h-20 w-12 h-12">
@@ -28,7 +31,11 @@ const UserInfo: React.FC<UserInfoProps> = ({ children, post }) => {
       <div className="flex flex-col">
         <Link href={`/profile/${post.userId}`}>
           <div className="mt-1 flex flex-col gap-2">
-            <p className="flex gap-2 items-center md:text-md font-bold text-primary-dark-200ry">
+            <p
+              className={`flex gap-2 items-center md:text-md font-bold  ${
+                dark ? "text-primary-light-400" : "text-primary-dark-400"
+              }`}
+            >
               {post.user.name} <GoVerified className="text-blue-400 text-md" />
             </p>
             <p className="capitalize font-medium text-xs text-gray-500 hidden md:block">

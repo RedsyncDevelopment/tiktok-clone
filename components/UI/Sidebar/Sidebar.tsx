@@ -17,10 +17,11 @@ const Sidebar: React.FC<SidebarProps> = ({ children }) => {
   const { dark } = useContext(ThemeContext);
 
   const [showSidebar, setShowSidebar] = useState(true);
-  const normalLink =
-    "flex items-center gap-3 hover:bg-primary p-3 justify-center xl:justify-start cursor-pointer font-semibold text-[#f51997] rounded";
+  const normalLink = `${
+    dark ? "hover:bg-primary-dark-200" : "hover:bg-primary-light-700"
+  } flex items-center gap-3  p-3 justify-center xl:justify-start cursor-pointer font-semibold text-[#f51997] rounded`;
 
- const themedIcon = `${
+  const themedIcon = `${
     dark ? "text-primary-light-400" : "text-primary-dark-400"
   }`;
 

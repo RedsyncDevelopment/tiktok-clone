@@ -1,7 +1,14 @@
 import Link from "next/link";
-import React, { ReactNode, useEffect, useRef, useState } from "react";
+import React, {
+  ReactNode,
+  useContext,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 import { BsFillPauseFill, BsFillPlayFill } from "react-icons/bs";
 import { HiVolumeOff, HiVolumeUp } from "react-icons/hi";
+import { ThemeContext } from "../../../states/context/theme/ThemeContext";
 import UserInfo from "../../UI/UserInfo";
 
 interface VideoCardProps {
@@ -10,6 +17,8 @@ interface VideoCardProps {
 }
 
 const VideoCard: React.FC<VideoCardProps> = ({ children, post }) => {
+  const { dark } = useContext(ThemeContext);
+
   const [isHover, setIsHover] = useState(false);
   const [playing, setPlaying] = useState(true);
   const [isVideoMuted, setIsVideoMuted] = useState(true);
@@ -34,7 +43,7 @@ const VideoCard: React.FC<VideoCardProps> = ({ children, post }) => {
 
   return (
     <>
-      <div className="flex flex-col border-b-2 border-gray-200 pb-6 gap-2">
+      <div className="flex flex-col pb-6 gap-2">
         <div>
           <UserInfo post={post} />
         </div>
@@ -51,7 +60,9 @@ const VideoCard: React.FC<VideoCardProps> = ({ children, post }) => {
                 loop
                 autoPlay
                 muted
-                className="lg:w-[600px] h-[300px] md:h-[400px] md:w-[400px] lg:h-[530px] w-[200px] rounded-2xl cursor-pointer bg-gray-100"
+                className={`lg:w-[600px] h-[300px] md:h-[400px] md:w-[400px] lg:h-[530px] w-[200px] rounded-2xl cursor-pointer  ${
+                  dark ? "bg-primary-dark-700" : "bg-primary-light-200"
+                }`}
               ></video>
             </Link>
             {isHover && (

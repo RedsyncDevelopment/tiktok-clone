@@ -1,4 +1,4 @@
-import { ReactNode, useEffect, useRef, useState } from "react";
+import { ReactNode, useContext, useEffect, useRef, useState } from "react";
 
 import { BsFillPlayFill } from "react-icons/bs";
 import { MdOutlineCancel } from "react-icons/md";
@@ -11,6 +11,7 @@ import { HiVolumeOff, HiVolumeUp } from "react-icons/hi";
 import Comments from "../../components/pages/details/Comments";
 import LikeButton from "../../components/pages/details/LikeButton";
 import UserInfo from "../../components/UI/UserInfo";
+import { ThemeContext } from "../../states/context/theme/ThemeContext";
 import { BASE_URL } from "../../utils";
 
 interface DetailProps {
@@ -20,6 +21,7 @@ interface DetailProps {
 
 const Detail: NextPage<DetailProps> = ({ postDetails }) => {
   const { data: session } = useSession();
+  const { dark } = useContext(ThemeContext);
 
   const [post, setPost] = useState(postDetails);
   const [playing, setPlaying] = useState(false);
@@ -78,7 +80,11 @@ const Detail: NextPage<DetailProps> = ({ postDetails }) => {
 
   return (
     <>
-      <div className="flex w-full absolute left-0 top-0 bg-white flex-wrap lg:flex-nowrap">
+      <div
+        className={`flex w-full absolute left-0 top-0 flex-wrap lg:flex-nowrap ${
+          dark ? "bg-primary-dark-400" : "bg-primary-light-400"
+        }`}
+      >
         <div className="relative flex-2 w-[1000px] lg:w:9/12 flex justify-center items-center bg-blurred-img bg-no-repeat bg-cover bg-center">
           <div className="absolute top-6 left-2 lg:left-6 flex gap-6 z-50">
             <p
@@ -87,7 +93,11 @@ const Detail: NextPage<DetailProps> = ({ postDetails }) => {
               }}
               className="cursor-pointer"
             >
-              <MdOutlineCancel className="text-white text-[35px]" />
+              <MdOutlineCancel
+                className={` text-[35px] ${
+                  dark ? "text-primary-dark-400" : "text-primary-light-400"
+                }`}
+              />
             </p>
           </div>
           <div className="relative">
@@ -103,7 +113,11 @@ const Detail: NextPage<DetailProps> = ({ postDetails }) => {
             <div className="absolute top-[45%] left-[45%] cursor-pointer">
               {!playing && (
                 <button onClick={onVideoClick}>
-                  <BsFillPlayFill className="text-white text-6xl lg:text-8xl" />
+                  <BsFillPlayFill
+                    className={`text-6xl lg:text-8xl ${
+                      dark ? "text-primary-dark-400" : "text-primary-light-400"
+                    }`}
+                  />
                 </button>
               )}
             </div>
@@ -111,11 +125,19 @@ const Detail: NextPage<DetailProps> = ({ postDetails }) => {
           <div className="absolute bottom-5 lg:bottom-10 right-5 lg:right-10 cursor-pointer ">
             {isVideoMuted ? (
               <button onClick={() => setIsVideoMuted(false)}>
-                <HiVolumeOff className="text-white text-2xl lg:text-4xl" />
+                <HiVolumeOff
+                  className={`text-2xl lg:text-4xl ${
+                    dark ? "text-primary-dark-400" : "text-primary-light-400"
+                  }`}
+                />
               </button>
             ) : (
               <button onClick={() => setIsVideoMuted(true)}>
-                <HiVolumeUp className="text-white text-2xl lg:text-4xl" />
+                <HiVolumeUp
+                  className={`text-2xl lg:text-4xl ${
+                    dark ? "text-primary-dark-400" : "text-primary-light-400"
+                  }`}
+                />
               </button>
             )}
           </div>
@@ -124,8 +146,18 @@ const Detail: NextPage<DetailProps> = ({ postDetails }) => {
           <div className="lg:mt-20 mt-10">
             <UserInfo post={post} />
           </div>
-          <p className="px-10 text-lg text-gray-600">{post.caption}</p>
-          <div className="mt-10 px-10">
+          <p
+            className={`px-10 text-lg mt-5 ${
+              dark ? "text-primary-light-400" : "text-primary-dark-400"
+            }`}
+          >
+            {post.caption}
+          </p>
+          <div
+            className={`mt-5 mb-2 px-10 ${
+              dark ? "text-primary-light-400" : "text-primary-dark-400"
+            }`}
+          >
             {session && (
               <LikeButton
                 likes={post.likes}
